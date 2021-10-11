@@ -1,0 +1,41 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: LiarCoder
+ * @Date: 2021-09-15 23:44:24
+ * @LastEditors: LiarCoder
+ * @LastEditTime: 2021-09-16 00:03:36
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>121. 买卖股票的最佳时机</title>
+</head>
+
+<body>
+  <script type="text/javascript">
+    var maxProfit = function (prices) {
+      // let dp = [];
+      let dp = Array.from({ length: prices.length }).fill(0);
+      dp[0] = 0;
+      let p = 0;
+      for (let i = 1; i < prices.length; i++) {
+        if (prices[i] > prices[p]) {
+          dp[i] = dp[p] + prices[i] - prices[p];
+          p = i;
+          continue;
+        }
+        if (dp[p] === 0) {
+          p++;
+        }
+      }
+      return dp[p];
+    };
+    console.log(maxProfit([7, 1, 5, 3, 6, 4]));
+  </script>
+</body>
+
+</html>

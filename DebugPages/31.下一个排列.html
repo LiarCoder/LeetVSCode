@@ -1,0 +1,67 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: LiarCoder
+ * @Date: 2021-10-08 17:03:58
+ * @LastEditors: LiarCoder
+ * @LastEditTime: 2021-10-08 19:10:08
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>31. 下一个排列</title>
+</head>
+
+<body>
+  <script type="text/javascript">
+    /**
+   * @param {number[]} nums
+   * @return {void} Do not return anything, modify nums in-place instead.
+   */
+    var nextPermutation = function (nums) {
+      let current = Number(nums.join(''));
+      let result = null;
+      let hasFound = false;
+      let temp = [];
+      backtracking(nums, []);
+      return result;
+
+      function backtracking(nums, used) {
+        if (temp.length === nums.length) {
+          if (!hasFound && current < Number(temp.join(''))) {
+            result = [...temp];
+            hasFound = true;
+          }
+          return;
+        }
+        for (let i = 0; i < nums.length; i++) {
+          if (used[i] || hasFound) {
+            continue;
+          }
+          temp.push(nums[i]);
+          used[i] = true;
+          backtracking(nums, used);
+          used[i] = false;
+          temp.pop();
+        }
+      }
+    };
+    console.log(nextPermutation([1, 2, 3]));
+    p.next = q.next;
+    q.next = q.next.next;
+    p.next.next = q;
+    q = p.next;
+    p = p.next.next;
+    q = q.next.next;
+  </script>
+  [1,2,3]
+  [3,2,1]
+  [1,1,5]
+  [1]
+  [1,3,2]
+</body>
+
+</html>

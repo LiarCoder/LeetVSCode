@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>20. 有效的括号</title>
+</head>
+
+<body>
+    <script type="text/javascript">
+        var isValid = function (s) {
+            let origin = s.split('');
+            let rightBrackets = [')', '}', ']'];
+            if (rightBrackets.includes(origin[0]) || origin.length % 2 !== 0) {
+                return false;
+            }
+            let matchStack = [];
+            for (let i = 0, len = origin.length, j = len - 1; i < len; i++, j--) {
+                if (rightBrackets.includes(origin[j])) {
+                    matchStack.push(origin[j]);
+                    origin.pop();
+                    continue;
+                }
+                if (matchStack[matchStack.length - 1] === matchTheHalf(origin[j])) {
+                    matchStack.pop();
+                    origin.pop();
+                }
+            }
+            if (matchStack.length === 0 && origin.length === 0) {
+                return true;
+            }
+            return false;
+
+            function matchTheHalf(bracket) {
+                if (bracket === '(') return ')';
+                if (bracket === '{') return '}';
+                if (bracket === '[') return ']';
+            }
+        };
+
+        console.log(isValid('()[]{}'));
+    </script>
+</body>
+
+</html>

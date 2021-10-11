@@ -1,0 +1,47 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: LiarCoder
+ * @Date: 2021-10-10 00:58:04
+ * @LastEditors: LiarCoder
+ * @LastEditTime: 2021-10-10 01:46:47
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1047. 删除字符串中的所有相邻重复项</title>
+</head>
+
+<body>
+  <script type="text/javascript">
+    var removeDuplicates = function (s) {
+      let sArr = s.split('');
+      sArr.push('#');
+      let head = sArr.shift();
+      while (head !== '#') {
+        if (head === sArr[0]) {
+          sArr.shift();
+          sArr[0] === sArr[sArr.length - 1] && sArr.length !== 1 ? sArr.shift() && sArr.pop() : null;
+        } else {
+          sArr.push(head);
+        }
+        head = sArr.shift();
+      }
+      return sArr.join('');
+    };
+    // console.log(removeDuplicates("abbaca"));
+    console.log(removeDuplicates("cmclrhhapqdfkfjllkedgirfpeegjitijeghhqtpaprhnpljcidotmhdrfesieqcjbtrrtbkblboiduqltrbqqfjbmigseoushtardbbhislcnujegkicmlmodqeodoosgguqhnckcjdqdkfnqfqdupuqgpqukeddcalpqtjlhldhndrhpkliposegmeekfokkjsqldehlibposfggitdslltlkhjqtruugkqmqbiuttagmktpkcocfntbrjrpqostkepooqanhbjbemneogtusjnajniudhtritdcrujkagbmofhehldokqprfadsbgdgcflbrnngamdphoptgcqeujfboseescobuoiqrjhbhomnldulduugegoejffsgikbdqorqrjfmiohbmhijpfgkntuersdebapquucmskcblujeqnodaqcaphsuksdfgjlhmnfsgnpupfuarmmtjfimqtksbdchfounolekpdotpspgoukcmrtsnqkdccfjlcmclrhhapqdfkfjllkedgirfpeegjitijeghhqtpaprhnpljcidotmhdrfesieqcjbtrrtbkblboiduqltrbqqfjbmigseoushtardbbhislcnujegkicmlmodqeodoosgguqhnckcjdqdkfnqfqdupuqgpqukeddcalpqtjlhldhndrhpkliposegmeekfokkjsqldehlibposfggitdslltlkhjqtruugkqmqbiuttagmktpkcocfntbrjrpqostkepooqanhbjbemneogtusjnajniudhtritdcrujkagbmofhehldokqprfadsbgdgcflbrnngamdphoptgcqeujfboseescobuoiqrjhbhomnldulduugegoejffsgikbdqorqrjfmiohbmhijpfgkntuersdebapquucmskcblujeqnodaqcaphsuksdfgjlhmnfsgnpupfuarmmtjfimqtksbdchfounolekpdotpspgoukcmrtsnqkdccfjl"));
+  </script>
+  "cmclrhhapqdfkfjllkedgirfpeegjitijeghhqtpaprhnpljcidotmhdrfesieqcjbtrrtbkblboiduqltrbqqfjbmigseoushtardbbhislcnujegkicmlmodqeodoosgguqhnckcjdqdkfnqfqdupuqgpqukeddcalpqtjlhldhndrhpkliposegmeekfokkjsqldehlibposfggitdslltlkhjqtruugkqmqbiuttagmktpkcocfntbrjrpqostkepooqanhbjbemneogtusjnajniudhtritdcrujkagbmofhehldokqprfadsbgdgcflbrnngamdphoptgcqeujfboseescobuoiqrjhbhomnldulduugegoejffsgikbdqorqrjfmiohbmhijpfgkntuersdebapquucmskcblujeqnodaqcaphsuksdfgjlhmnfsgnpupfuarmmtjfimqtksbdchfounolekpdotpspgoukcmrtsnqkdccfjlcmclrhhapqdfkfjllkedgirfpeegjitijeghhqtpaprhnpljcidotmhdrfesieqcjbtrrtbkblboiduqltrbqqfjbmigseoushtardbbhislcnujegkicmlmodqeodoosgguqhnckcjdqdkfnqfqdupuqgpqukeddcalpqtjlhldhndrhpkliposegmeekfokkjsqldehlibposfggitdslltlkhjqtruugkqmqbiuttagmktpkcocfntbrjrpqostkepooqanhbjbemneogtusjnajniudhtritdcrujkagbmofhehldokqprfadsbgdgcflbrnngamdphoptgcqeujfboseescobuoiqrjhbhomnldulduugegoejffsgikbdqorqrjfmiohbmhijpfgkntuersdebapquucmskcblujeqnodaqcaphsuksdfgjlhmnfsgnpupfuarmmtjfimqtksbdchfounolekpdotpspgoukcmrtsnqkdccfjl"
+
+  "cmclrapqdfkfjkedgirfpgjitijegqtpaprhnpljcidotmhdrfesieqcjbbkblboiduqltrbfjbmigseoushtardhislcnujegkicmlmodqeodsuqhnckcjdqdkfnqfqdupuqgpqukecalpqtjlhldhndrhpkliposegmkfojsqldehlibposfitdstlkhjqtrgkqmqbiuagmktpkcocfntbrjrpqostkepqanhbjbemneogtusjnajniudhtritdcrujkagbmofhehldokqprfadsbgdgcflbrgamdphoptgcqeujfbocobuoiqrjhbhomnlduldgegoejsgikbdqorqrjfmiohbmhijpfgkntuersdebapqcmskcblujeqnodaqcaphsuksdfgjlhmnfsgnpupfuartjfimqtksbdchfounolekpdotpspgoukcmrtsnqkdfjlcmclrapqdfkfjkedgirfpgjitijegqtpaprhnpljcidotmhdrfesieqcjbbkblboiduqltrbfjbmigseoushtardhislcnujegkicmlmodqeodsuqhnckcjdqdkfnqfqdupuqgpqukecalpqtjlhldhndrhpkliposegmkfojsqldehlibposfitdstlkhjqtrgkqmqbiuagmktpkcocfntbrjrpqostkepqanhbjbemneogtusjnajniudhtritdcrujkagbmofhehldokqprfadsbgdgcflbrgamdphoptgcqeujfbocobuoiqrjhbhomnlduldgegoejsgikbdqorqrjfmiohbmhijpfgkntuersdebapqcmskcblujeqnodaqcaphsuksdfgjlhmnfsgnpupfuartjfimqtksbdchfounolekpdotpspgoukcmrtsnqkdfjl"
+
+  "cmclrapqdfkfjkedgirfpgjitijegqtpaprhnpljcidotmhdrfesieqcjkblboiduqltrbfjbmigseoushtardhislcnujegkicmlmodqeodsuqhnckcjdqdkfnqfqdupuqgpqukecalpqtjlhldhndrhpkliposegmkfojsqldehlibposfitdstlkhjqtrgkqmqbiuagmktpkcocfntbrjrpqostkepqanhbjbemneogtusjnajniudhtritdcrujkagbmofhehldokqprfadsbgdgcflbrgamdphoptgcqeujfbocobuoiqrjhbhomnlduldgegoejsgikbdqorqrjfmiohbmhijpfgkntuersdebapqcmskcblujeqnodaqcaphsuksdfgjlhmnfsgnpupfuartjfimqtksbdchfounolekpdotpspgoukcmrtsnqkdfjlcmclrapqdfkfjkedgirfpgjitijegqtpaprhnpljcidotmhdrfesieqcjkblboiduqltrbfjbmigseoushtardhislcnujegkicmlmodqeodsuqhnckcjdqdkfnqfqdupuqgpqukecalpqtjlhldhndrhpkliposegmkfojsqldehlibposfitdstlkhjqtrgkqmqbiuagmktpkcocfntbrjrpqostkepqanhbjbemneogtusjnajniudhtritdcrujkagbmofhehldokqprfadsbgdgcflbrgamdphoptgcqeujfbocobuoiqrjhbhomnlduldgegoejsgikbdqorqrjfmiohbmhijpfgkntuersdebapqcmskcblujeqnodaqcaphsuksdfgjlhmnfsgnpupfuartjfimqtksbdchfounolekpdotpspgoukcmrtsnqkdfjl"
+
+  cfjaksjdlkfjalkjsfdasfdasdfasdf
+</body>
+
+</html>

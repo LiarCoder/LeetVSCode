@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>322. 零钱兑换</title>
+</head>
+
+<body>
+  <script type="text/javascript">
+    // 下面这个二维数组没啥用，拿来测试的
+    // let arr = [
+    //   [0, 0, 0, 0, 0],
+    //   [0, 0, 0, 0, 0],
+    //   [0, 0, 0, 0, 0]
+    // ];
+
+    // 这是我还没了解背包问题前的写法，非常的单纯（菜鸡）
+    //#region 
+    // var coinChange = function (coins, amount) {
+    //   if (amount === 0) {
+    //     return 0;
+    //   }
+    //   let pocket = 0;
+    //   coins.sort((a, b) => b - a);
+    //   for (let i = 0; i < coins.length; i++) {
+    //     pocket += Math.floor(amount / coins[i]);
+    //     amount = amount % coins[i];
+    //     console.log(coins[i], pocket, amount);
+    //   }
+    //   if (amount === 0) {
+    //     return pocket;
+    //   }
+    //   return -1;
+    // };
+    //#endregion
+
+    // 我根据LeetCode精选题解的C++代码改编的JavaScript代码（一维数组）
+    //#region 
+    // var coinChange = function (coins, amount) {
+    //   let dp = Array.from({ length: amount + 1 }).fill(Infinity);
+    //   dp[0] = 0;
+    //   for (let i = 0; i < coins.length; i++) {
+    //     for (let j = 0; j <= amount; j++) {
+    //       if (coins[i] <= j) {
+    //         dp[j] = Math.min(dp[j], dp[j - coins[i]] + 1);
+    //       }
+    //     }
+    //   }
+    //   return dp[amount] === Infinity ? -1 : dp[amount];
+    // };
+    //#endregion
+
+    // 代码随想录的代码（先遍历物品，再遍历背包），跟我上面改编的代码一样（一维数组）
+    //#region 
+    // const coinChange = (coins, amount) => {
+    //   if (!amount) {
+    //     return 0;
+    //   }
+
+    //   let dp = Array(amount + 1).fill(Infinity);
+    //   dp[0] = 0;
+
+    //   for (let i = 0; i < coins.length; i++) {
+    //     for (let j = coins[i]; j <= amount; j++) {
+    //       dp[j] = Math.min(dp[j - coins[i]] + 1, dp[j]);
+    //     }
+    //   }
+
+    //   return dp[amount] === Infinity ? -1 : dp[amount];
+    // }
+    //#endregion
+
+    // 代码随想录的代码（先遍历背包，再遍历物品）（一维数组）
+    //#region 
+    // const coinChange = (coins, amount) => {
+    //   if (!amount) {
+    //     return 0;
+    //   }
+
+    //   let dp = Array(amount + 1).fill(Infinity);
+    //   dp[0] = 0;
+
+    //   for (let j = 1; j <= amount; j++) {
+    //     for (let i = 0; i < coins.length; i++) {
+    //       // 注意要多加这一个if判断
+    //       if (j - coins[i] >= 0 && dp[j - coins[i]] != Infinity) {
+    //         dp[j] = Math.min(dp[j - coins[i]] + 1, dp[j]);
+    //       }
+    //     }
+    //   }
+
+    //   return dp[amount] === Infinity ? -1 : dp[amount];
+    // }
+    //#endregion
+
+    // 这是我根据上面我改编的JavaScript代码再改编的二维数组写法，
+    // 更利于观察分析（结合iPad上的图示思考效果更好），
+    // 理解了二维数组原理后，也可以对一维数组的写法理解更好
+    //#region 
+    function coinChange(coins, amount) {
+      // 先初始化整个二维dp数组，即：用Infinity填充整个二维数组
+
+      // 方法2：利用Array.from和fill、map函数（直接套用518. 零钱兑换 II中的代码）
+      // 2021年8月15日18:31:49：我发现这种创建数组的方式就可以满足预期效果，淦~
+      let dp = Array.from({ length: coins.length }).map(
+        () => Array.from({ length: amount + 1 }).fill(Infinity)
+      );
+
+      // 方法1：利用new Array和fill、map函数（自己探索出来的）
+      // 2021年8月15日18:27:20：我发现这种创建数组的方式会导致修改数组时出现预期外的效果
+      // let dp = new Array(coins.length).fill(new Array(amount + 1)).map(
+      //   (current) => current.fill(Infinity)
+      // );
+
+      // 初始化第一列：dp[i][0]（全为0）
+      for (let i = 0; i < coins.length; i++) {
+        dp[i][0] = 0;
+      }
+      // 初始化第一行：dp[0][j]
+      for (let j = 1; j <= amount; j++) {
+        if (j % coins[0] === 0) {
+          dp[0][j] = j / coins[0];
+        }
+      }
+
+      // 开始遍历填充dp数组，也就是计算dp[i][j]
+      // 这道题中不涉及排列或组合的问题，所以可以随意选择先遍历什么，
+      // 那就先开始遍历硬币（外层for循环），再遍历背包容量（内层for循环）
+      for (let i = 1; i < coins.length; i++) {
+        for (let j = 1; j <= amount; j++) {
+          // 先要判断当前背包容量 j 和 硬币面额大小 coins[i] 的大小
+          if (j < coins[i]) {
+            dp[i][j] = dp[i - 1][j];
+            continue;
+          }
+          let temp = Math.min(dp[i - 1][j - coins[i]], dp[i][j - coins[i]]);
+          dp[i][j] = Math.min(temp + 1, dp[i - 1][j]);
+        }
+      }
+      return dp[coins.length - 1][amount];
+    }
+    //#endregion
+
+    console.log(coinChange([2, 1, 5], 11));
+    // console.log(coinChange([186,419,83,408], 6249));
+  </script>
+</body>
+
+</html>

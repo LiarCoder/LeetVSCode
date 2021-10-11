@@ -1,0 +1,86 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: LiarCoder
+ * @Date: 2021-09-12 12:04:44
+ * @LastEditors: LiarCoder
+ * @LastEditTime: 2021-09-12 16:29:00
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>剑指 Offer 62. 圆圈中最后剩下的数字</title>
+</head>
+
+<body>
+  <script type="text/javascript">
+    //#region 
+    // function ListNode(val) {
+    //   this.val = val;
+    //   this.next = null;
+    // }
+
+    // function createList(num) {
+    //   let head = new ListNode(0);
+    //   let rear = head;
+    //   for (let i = 1; i < num; i++) {
+    //     rear.next = new ListNode(i);
+    //     rear = rear.next;
+    //   }
+    //   rear.next = head;
+    //   return rear;
+    // }
+
+    // function deleteNode(list, step) {
+    //   let beforeTarget = list;
+    //   while (step > 1) {
+    //     beforeTarget = beforeTarget.next;
+    //     step--;
+    //   }
+    //   beforeTarget.next = beforeTarget.next.next;
+    //   return beforeTarget;
+    // }
+
+    // var lastRemaining = function (n, m) {
+    //   let list = createList(n);
+    //   while (list.next !== list) {
+    //     list = deleteNode(list, m);
+    //   }
+    //   return list.val;
+    // };
+    //#endregion
+
+    var lastRemaining = function (n, m) {
+      let arr = Array.from({ length: n }).map(
+        (current, index) => index
+      );
+      let start = 0;
+      let target = 0;
+      while (arr.length > 1) {
+        let remainingSteps = m - (arr.length - start);
+        if (remainingSteps > 0) {
+          target = remainingSteps % arr.length ? remainingSteps % arr.length - 1 : arr.length - 1;
+          start = remainingSteps % arr.length ? target : 0;
+        } else {
+          target = start + m - 1;
+          start = remainingSteps === 0 ? 0 : target;
+        }
+        // delete (arr[target]);
+        // arr = arr.filter(val => val !== undefined);
+        arr.splice(target, 1);
+      }
+      return arr[0];
+    };
+    // console.log(lastRemaining(5, 3));
+    // console.log(lastRemaining(5, 2));
+    console.log(lastRemaining(9, 13));
+    console.log(lastRemaining(70866, 116922));
+    console.log(lastRemaining(61470, 105136));
+    console.log(lastRemaining(95375, 126613));
+  </script>
+</body>
+
+</html>

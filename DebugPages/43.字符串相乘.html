@@ -1,0 +1,69 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: LiarCoder
+ * @Date: 2021-10-06 20:37:12
+ * @LastEditors: LiarCoder
+ * @LastEditTime: 2021-10-06 22:18:53
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>43. 字符串相乘</title>
+</head>
+
+<body>
+  <script type="text/javascript">
+    /**
+     * @param {string} num1
+     * @param {string} num2
+     * @return {string}
+     */
+    var multiply = function (num1, num2) {
+      let numArr1 = num1.split('').map(Number);
+      let numArr2 = num2.split('').map(Number);
+      let bitRes = [];
+      let finalRes = [];
+      let carrier = 0;
+      let temp = 0;
+      for (let i = 0; i < numArr1.length; i++) {
+        for (let j = numArr2.length - 1; j >= 0; j--) {
+          temp = numArr2[j] * numArr1[i] + carrier;
+          bitRes.push(temp % 10);
+          carrier = parseInt(temp / 10);
+        }
+        if (carrier !== 0) {
+          bitRes.unshift(carrier);
+        }
+        bitRes = new Array(numArr1.length - 1 - i).fill(0).concat(bitRes);
+        if (finalRes.length) {
+          // if(finalRes.length > bitRes.length) {
+          //   bitRes = new Array(finalRes.length - bitRes.length).fill(0).concat(bitRes);
+          // }
+          carrier = 0;
+          for (let k = 0; k < finalRes.length; k++) {
+            // let p = finalRes.length-k;
+            bitRes[k] = bitRes[k] === undefined ? 0 : bitRes[k];
+            temp = finalRes[k] + bitRes[k] + carrier;
+            finalRes[k] = temp % 10;
+            carrier = parseInt(temp / 10);
+          }
+        } else {
+          finalRes.push([...bitRes]);
+        }
+        bitRes = [];
+        carrier = 0;
+      }
+      // return finalRes.reverse().join('');
+      return finalRes;
+      // function getSumOfTwoArrs()
+    };
+    // "9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999"
+    console.log(multiply("123", "456"));
+  </script>
+</body>
+
+</html>

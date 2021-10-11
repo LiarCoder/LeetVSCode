@@ -1,0 +1,50 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: LiarCoder
+ * @Date: 2021-07-27 00:25:56
+ * @LastEditors: LiarCoder
+ * @LastEditTime: 2021-09-27 20:47:50
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>46.全排列</title>
+</head>
+
+<body>
+  <script type="text/javascript">
+    var permute = function (nums) {
+      const res = [], path = [];
+      backtracking(nums, nums.length, []);
+      return res;
+
+      function backtracking(n, k, used) {
+        if (path.length === k) {
+          // console.log('path-res:', path);
+          res.push(Array.from(path));
+          return;
+        }
+        for (let i = 0; i < k; i++) {
+          if (used[i]) continue;
+          path.push(n[i]);
+          used[i] = true;
+          // console.log('path-gen:', path, ' ', used, i);
+          backtracking(n, k, used);
+          path.pop();
+          used[i] = false;
+          // console.log('path-bak:', path, ' ', used, i);
+        }
+      }
+    };
+
+    // console.log(permute([1, 2, 3]));
+    // console.log(permute([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]));
+    console.log(permute([3, 30, 34, 5, 9]));
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,53 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: LiarCoder
+ * @Date: 2021-10-10 13:42:28
+ * @LastEditors: LiarCoder
+ * @LastEditTime: 2021-10-10 14:04:55
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>498. 对角线遍历</title>
+</head>
+
+<body>
+  <script type="text/javascript">
+    var findDiagonalOrder = function (mat) {
+      let result = [];
+      for (let i = 0; i < mat.length; i++) {
+        if (i % 2) {
+          result.push(...getOneDiagonal(mat, [i, 0]).reverse());
+          continue;
+        }
+        result.push(...getOneDiagonal(mat, [i, 0]))
+      }
+      for (let i = 1; i < mat[0].length; i++) {
+        if (i % 2) {
+          result.push(...getOneDiagonal(mat, [mat.length - 1, i]).reverse());
+          continue;
+        }
+        result.push(...getOneDiagonal(mat, [mat.length - 1, i]))
+      }
+      return result;
+
+      function getOneDiagonal(arr, start) {
+        let diagonal = [];
+        while (start[0] >= 0 && start[1] < arr[0].length) {
+          diagonal.push(arr[start[0]][start[1]]);
+          start[0]--;
+          start[1]++;
+        }
+        return diagonal;
+      }
+    };
+    // console.log(findDiagonalOrder([[1, 2, 3], [4, 5, 6], [7, 8, 9]]));
+    console.log(findDiagonalOrder([[2, 5, 8], [4, 0, -1]]));
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,90 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: LiarCoder
+ * @Date: 2021-07-31 23:43:28
+ * @LastEditors: LiarCoder
+ * @LastEditTime: 2021-09-04 13:42:04
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>206.反转链表</title>
+  <script type="text/javascript" src="../create-leetcode-singly-list.js"></script>
+</head>
+
+<body>
+  <script>
+    let list = createSinglyList([1, 2, 3, 4, 5]);
+    // console.log(list);
+
+    // #region
+    // 需要辅助头结点temp
+    // var reverseList = function (head) {
+    //   let temp = new ListNode(null, head);
+    //   // let p = temp.next;
+    //   let p = head;
+    //   temp.next = null;
+    //   while (p) {
+    //     let q = p.next;
+    //     p.next = temp.next;
+    //     temp.next = p;
+    //     p = q;
+    //   }
+    //   return temp.next;
+    // };
+    // #endregion
+
+    // #region
+    // 不需要辅助头结点temp
+    // var reverseList = function (head) {
+    //   let result = head;
+    //   let p = head.next;
+    //   head.next = null;
+    //   while (p) {
+    //     let q = p.next;
+    //     p.next = result;
+    //     result = p;
+    //     p = q;
+    //   }
+    //   return result;
+    // };
+    // #endregion
+
+    var reverseList = function (head) {
+      let p = head;
+      head.next = null;
+      while (p) {
+        let q = p.next;
+        p.next = head.next;
+        head.next = p;
+        p = q;
+      }
+      return head;
+    };
+
+      // #region
+      // 2021年8月2日19:36:05，同学写的牛客在线调试
+      // function test(len, arr) {
+      //   let str = arr.toString().split(",");
+
+      //   for (let i = 0; i < len; ++i) {
+      //     if (str.indexOf(str[i]) == str.lastIndexOf(str[i])) {
+      //       return i;
+      //     }
+      //   }
+      //   return -1;
+      // }
+      // let len = 12;
+      // let arr = [1, 2, 2, 1, 2, 3, 1, -123, 345, 5, 4, 6];
+      // console.log(test(12, arr));
+      // #endregion
+
+      // console.log(reverseList(list));
+  </script>
+</body>
+
+</html>

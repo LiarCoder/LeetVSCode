@@ -1,0 +1,67 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: LiarCoder
+ * @Date: 2021-09-28 14:20:15
+ * @LastEditors: LiarCoder
+ * @LastEditTime: 2021-09-28 14:55:27
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2. 两数相加</title>
+</head>
+
+<body>
+  <script type="text/javascript" src="../create-leetcode-singly-list.js"></script>
+  <script type="text/javascript">
+    /**
+   * Definition for singly-linked list.
+   * function ListNode(val, next) {
+   *     this.val = (val===undefined ? 0 : val)
+   *     this.next = (next===undefined ? null : next)
+   * }
+   */
+    /**
+     * @param {ListNode} l1
+     * @param {ListNode} l2
+     * @return {ListNode}
+     */
+    var addTwoNumbers = function (l1, l2) {
+      let p = l1;
+      let q = l2;
+      let carrier = 0;
+      let temp = 0;
+      let result = new ListNode(0, null);
+      let r = result;
+      while (p && q) {
+        temp = carrier;
+        carrier = p.val + q.val + temp >= 10 ? 1 : 0;
+        let node = new ListNode((p.val + q.val + temp) % 10, null);
+        r.next = node;
+        p = p.next;
+        q = q.next;
+        r = r.next;
+      }
+      let long = p ? p : q;
+      r.next = long;
+      while (long) {
+        temp = carrier;
+        carrier = long.val + temp >= 10 ? 1 : 0;
+        long.val = (long.val + temp) % 10;
+        long = long.next;
+        r = r.next;
+      }
+      r.next = carrier ? new ListNode(1, null) : null;
+      return result.next;
+    };
+    let l1 = createSinglyList([3, 7]);
+    let l2 = createSinglyList([9, 2]);
+    console.log(addTwoNumbers(l1, l2));
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,211 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: LiarCoder
+ * @Date: 2021-09-10 23:03:48
+ * @LastEditors: LiarCoder
+ * @LastEditTime: 2021-09-11 21:50:32
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>146. LRU 缓存机制</title>
+</head>
+
+<body>
+  <script type="text/javascript">
+    // 用数组来模拟栈结构
+    //#region 
+    //     /**
+    //  * @param {number} capacity
+    //  */
+    //     var LRUCache = function (capacity) {
+    //       this.capacity = capacity;
+    //       this.keyStack = [];
+    //       this.cache = new Map();
+    //     };
+
+    //     /** 
+    //      * @param {number} key
+    //      * @return {number}
+    //      */
+    //     LRUCache.prototype.get = function (key) {
+    //       let keyIndex = this.keyStack.indexOf(key);
+    //       if (keyIndex !== -1) {
+    //         // for (let i = keyIndex; i < this.keyStack.length - 1; i++) {
+    //         //   this.keyStack[i] = this.keyStack[i + 1];
+    //         // }
+    //         // this.keyStack[this.keyStack.length - 1] = key;
+    //         this.keyStack.splice(keyIndex, 1);
+    //         this.keyStack.push(key);
+    //         return this.cache.get(key);
+    //       }
+    //       return -1;
+    //     };
+
+    //     /** 
+    //      * @param {number} key 
+    //      * @param {number} value
+    //      * @return {void}
+    //      */
+    //     LRUCache.prototype.put = function (key, value) {
+    //       if (!this.keyStack.includes(key)) {
+    //         if (this.keyStack.length !== this.capacity) {
+    //           this.keyStack.push(key);
+    //         } else {
+    //           this.keyStack.shift();
+    //           this.keyStack.push(key);
+    //         }
+    //       }
+    //       this.get(key);
+    //       this.cache.set(key, value);
+    //     };
+    //#endregion
+
+    // 用双向链表来模拟栈结构
+    //#region 
+    // function ListNode(key, val) {
+    //   this.key = key === undefined ? -1 : key;
+    //   this.val = val === undefined ? -1 : val;
+    //   this.next = this.pre = null;
+    // }
+
+    // /**
+    //  * @param {number} capacity
+    //  */
+    // var LRUCache = function (capacity) {
+    //   this.capacity = capacity;
+    //   this.keyHead = new ListNode(-1, 'head');
+    //   this.keyRear = new ListNode(-1, 'rear');
+    //   this.keyHead.next = this.keyRear;
+    //   this.keyRear.pre = this.keyHead;
+    //   this.cache = new Map();
+    // };
+
+    // /** 
+    //  * @param {number} key
+    //  * @return {number}
+    //  */
+    // LRUCache.prototype.get = function (key) {
+    //   if (this.cache.has(key)) {
+    //     let keyNode = this.cache.get(key);
+    //     keyNode.pre.next = keyNode.next;
+    //     keyNode.next.pre = keyNode.pre;
+
+    //     keyNode.next = this.keyRear;
+    //     keyNode.pre = this.keyRear.pre;
+    //     this.keyRear.pre.next = keyNode;
+    //     this.keyRear.pre = keyNode;
+
+    //     return keyNode.val;
+    //   }
+    //   return -1;
+    // };
+
+    // /** 
+    //  * @param {number} key 
+    //  * @param {number} value
+    //  * @return {void}
+    //  */
+    // LRUCache.prototype.put = function (key, value) {
+    //   if (!this.cache.has(key)) {
+    //     let newKeyNode = new ListNode(key, value);
+    //     if (this.cache.size === this.capacity) {
+    //       this.cache.delete(this.keyHead.next.key);
+    //       this.keyHead.next.next.pre = this.keyHead;
+    //       this.keyHead.next = this.keyHead.next.next;
+    //     }
+    //     newKeyNode.next = this.keyRear;
+    //     newKeyNode.pre = this.keyRear.pre;
+    //     this.keyRear.pre.next = newKeyNode;
+    //     this.keyRear.pre = newKeyNode;
+    //     this.cache.set(key, newKeyNode);
+    //   } else {
+    //     this.cache.get(key).val = value;
+    //   }
+    //   this.get(key);
+    // };
+    //#endregion
+
+    // 尝试只用Map
+    // function ListNode(key, val) {
+    //   this.key = key === undefined ? -1 : key;
+    //   this.val = val === undefined ? -1 : val;
+    //   this.next = this.pre = null;
+    // }
+
+    /**
+     * @param {number} capacity
+     */
+    var LRUCache = function (capacity) {
+      this.capacity = capacity;
+      this.cache = new Map();
+    };
+
+    /** 
+     * @param {number} key
+     * @return {number}
+     */
+    LRUCache.prototype.get = function (key) {
+      if (this.cache.has(key)) {
+        let targetVal = this.cache.get(key);
+        this.cache.delete(key);
+        this.cache.set(key, targetVal);
+        return targetVal;
+      }
+      return -1;
+    };
+
+    /** 
+     * @param {number} key 
+     * @param {number} value
+     * @return {void}
+     */
+    LRUCache.prototype.put = function (key, value) {
+      if (!this.cache.has(key)) {
+        if (this.cache.size === this.capacity) {
+          let keyArr = [...this.cache.keys()];
+          let bottomVal = this.cache.get(keyArr[0]);
+          this.cache.delete(keyArr[0]);
+        }
+      }
+      this.cache.set(key, value);
+      this.get(key);
+    };
+
+    let lRUCache = new LRUCache(2);
+    console.log(lRUCache.put(1, 1)); // 缓存是 {1=1}
+    console.log(lRUCache.put(2, 2)); // 缓存是 {1=1, 2=2}
+    console.log(lRUCache.get(1));    // 返回 1
+    console.log(lRUCache.put(3, 3)); // 该操作会使得关键字 2 作废，缓存是 {1=1, 3=3}
+    console.log(lRUCache.get(2));    // 返回 -1 (未找到)
+    console.log(lRUCache.put(4, 4)); // 该操作会使得关键字 1 作废，缓存是 {4=4, 3=3}
+    console.log(lRUCache.get(1));    // 返回 -1 (未找到)
+    console.log(lRUCache.get(3));    // 返回 3
+    console.log(lRUCache.get(4));    // 返回 4
+
+    // console.log(lRUCache.put(2, 1));
+    // console.log(lRUCache.put(1, 1));
+    // console.log(lRUCache.put(2, 3));
+    // console.log(lRUCache.put(4, 1));
+    // console.log(lRUCache.get(1));
+    // console.log(lRUCache.get(2));
+  </script>
+  输入：
+  ["LRUCache","put","put","get","put","get","put","get","get","get"]
+  [[2],[1,1],[2,2],[1],[3,3],[2],[4,4],[1],[3],[4]]
+  ["LRUCache","put","put","put","put","get","get"]
+  [[2],[2,1],[1,1],[2,3],[4,1],[1],[2]]
+  ["LRUCache","get","put","get","put","put","get","get"]
+  [[2],[2],[2,6],[1],[1,5],[1,2],[1],[2]]
+
+  预期结果：
+  [null,null,null,1,null,-1,null,-1,3,4]
+  [null,null,null,null,null,-1,3]
+  [null,-1,null,-1,null,null,2,6]
+</body>
+
+</html>

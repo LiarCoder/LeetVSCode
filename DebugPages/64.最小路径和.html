@@ -1,0 +1,127 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: LiarCoder
+ * @Date: 2021-09-12 09:14:13
+ * @LastEditors: LiarCoder
+ * @LastEditTime: 2021-09-14 17:08:14
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>64. 最小路径和</title>
+</head>
+
+<body>
+  <script type="text/javascript">
+    // 特意初始化dp数组的首行和首列
+    //#region 
+    // var minPathSum = function (grid) {
+    //   // 创建一个长宽和grid一样的dp二维数组，并同时给每个元素填充 0
+    //   let dp = Array.from({ length: grid.length }).map(
+    //     () => Array.from({ length: grid[0].length }).fill(0)
+    //   );
+    //   // 初始化dp数组的第一个元素
+    //   dp[0][0] = grid[0][0];
+    //   // 初始化dp数组的第一列
+    //   for (let i = 1; i < dp.length; i++) {
+    //     dp[i][0] = dp[i - 1][0] + grid[i][0];
+    //   }
+    //   // 初始化dp数组的第一行
+    //   for (let i = 1; i < dp[0].length; i++) {
+    //     dp[0][i] = dp[0][i - 1] + grid[0][i];
+    //   }
+    //   // 开始由前向后，由上到下地遍历原始的grid数组
+    //   for (let i = 1; i < dp.length; i++) {
+    //     for (let j = 1; j < dp[0].length; j++) {
+    //       dp[i][j] = Math.min(dp[i - 1][j], dp[i][j - 1]) + grid[i][j];
+    //     }
+    //   }
+    //   // grid遍历完成后，dp数组的最后一个元素就是我们需要的结果，将其返回
+    //   return dp[dp.length - 1][dp[0].length - 1];
+    // };
+    //#endregion
+
+    // 不特意初始化dp数组的首行和首列
+    //#region
+    // var minPathSum = function (grid) {
+    //   let dp = Array.from({ length: grid.length }).map(
+    //     () => Array.from({ length: grid[0].length }).fill(0)
+    //   );
+    //   dp[0][0] = grid[0][0];
+    //   // for (let i = 1; i < dp.length; i++) {
+    //   //   dp[i][0] = dp[i - 1][0] + grid[i][0];
+    //   // }
+    //   // for (let i = 1; i < dp[0].length; i++) {
+    //   //   dp[0][i] = dp[0][i - 1] + grid[0][i];
+    //   // }
+    //   for (let i = 0; i < dp.length; i++) {
+    //     for (let j = 0; j < dp[0].length; j++) {
+    //       if (i === 0 && j === 0) {
+    //         continue;
+    //       }
+    //       // 填充dp数组的第一列
+    //       if (i === 0) {
+    //         dp[i][j] = dp[i][j - 1] + grid[i][j];
+    //         continue;
+    //       }
+    //       // 填充dp数组的第一行
+    //       if (j === 0) {
+    //         dp[i][j] = dp[i - 1][j] + grid[i][j];
+    //         continue;
+    //       }
+    //       // 其他常规dp元素的计算
+    //       dp[i][j] = Math.min(dp[i - 1][j], dp[i][j - 1]) + grid[i][j];
+    //     }
+    //   }
+    //   // 最后结果还是dp数组中的最后一个元素
+    //   return dp[dp.length - 1][dp[0].length - 1];
+    // };
+    //#endregion
+
+    // 一维数组（滚动数组；最佳性能）
+    //#region 
+    var minPathSum = function (grid) {
+      let dp = Array.from({ length: grid[0].length + 1 }).fill(Infinity);
+      dp[1] = 0;
+      for (let i = 0; i < grid.length; i++) {
+        for (let j = 0; j < grid[0].length; j++) {
+          dp[j + 1] = Math.min(dp[j], dp[j + 1]) + grid[i][j];
+        }
+      }
+      // grid遍历完成后，dp数组的最后一个元素就是我们需要的结果，将其返回
+      return dp[dp.length - 1];
+    };
+    //#endregion
+
+    // 二维数组（真 · 不特意初始化dp数组的首行和首列）
+    //#region 
+    // var minPathSum = function (grid) {
+    //   // 创建一个长宽分别比grid大1的dp二维数组，并同时给每个元素填充 Infinity
+    //   let dp = Array.from({ length: grid.length + 1 }).map(
+    //     () => Array.from({ length: grid[0].length + 1 }).fill(Infinity)
+    //   );
+    //   // 初始化dp[0][1]
+    //   dp[0][1] = 0;
+    //   // 开始由前向后，由上到下地遍历原始的grid数组
+    //   for (let i = 1; i < dp.length; i++) {
+    //     for (let j = 1; j < dp[0].length; j++) {
+    //       dp[i][j] = Math.min(dp[i - 1][j], dp[i][j - 1]) + grid[i - 1][j - 1];
+    //     }
+    //   }
+    //   // grid遍历完成后，dp数组的最后一个元素就是我们需要的结果，将其返回
+    //   return dp[dp.length - 1][dp[0].length - 1];
+    // };
+    //#endregion
+
+    let grid = [[1, 3, 1], [1, 5, 1], [4, 2, 1]];
+    console.log(minPathSum(grid));
+    let grid2 = [[1, 2, 3], [4, 5, 6]];
+    console.log(minPathSum(grid2));
+  </script>
+</body>
+
+</html>

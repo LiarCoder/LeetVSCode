@@ -1,0 +1,46 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: LiarCoder
+ * @Date: 2021-10-11 16:06:48
+ * @LastEditors: LiarCoder
+ * @LastEditTime: 2021-10-11 16:11:21
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>4. 寻找两个正序数组的中位数</title>
+</head>
+
+<body>
+  <script type="text/javascript">
+    var findMedianSortedArrays = function (nums1, nums2) {
+      let half = (nums1.length + nums2.length) / 2;
+      let end = Math.floor(half);
+      let count = 0;
+      let next = 0;
+      while (count < end) {
+        next = getNext(nums1, nums2);
+        count++;
+      }
+      let temp = getNext(nums1, nums2);
+      return Number.isInteger(half) ? (temp + next) / 2 : temp;
+
+      function getNext(nArr1, nArr2) {
+        let next = 0;
+        if (nArr1.length && nArr2.length) {
+          next = nArr1[0] < nArr2[0] ? nArr1.shift() : nArr2.shift();
+        } else {
+          next = nArr1.length ? nArr1.shift() : nArr2.shift();
+        }
+        return next;
+      }
+    };
+    console.log(findMedianSortedArrays([1, 3], [2]));
+  </script>
+</body>
+
+</html>

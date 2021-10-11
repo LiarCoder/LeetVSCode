@@ -1,0 +1,63 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: LiarCoder
+ * @Date: 2021-10-07 11:22:18
+ * @LastEditors: LiarCoder
+ * @LastEditTime: 2021-10-07 12:54:12
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>34. 在排序数组中查找元素的第一个和最后一个位置</title>
+</head>
+
+<body>
+  <script type="text/javascript">
+    /**
+   * @param {number[]} nums
+   * @param {number} target
+   * @return {number[]}
+   */
+    var searchRange = function (nums, target) {
+      let front = 0;
+      let back = nums.length - 1;
+      let left = 0;
+      let right = 0;
+      let mid = 0;
+      let result = [-1, -1];
+      while (front < back) {
+        mid = Math.floor((back - front) / 2 + front);
+        if (nums[mid] === target) {
+          left = front;
+          right = mid;
+          while (!(nums[mid] === target && nums[mid - 1] !== target)) {
+            mid = Math.floor((right - left) / 2 + left);
+            left = nums[mid] === target ? left : mid;
+            right = nums[mid] === target ? mid : right;
+          }
+          result[0] = mid;
+          mid = Math.floor((back - front) / 2 + front);
+          left = mid;
+          right = back;
+          while (!(nums[mid] === target && nums[mid + 1] !== target)) {
+            mid = Math.ceil((right - left) / 2 + left);
+            left = nums[mid] === target ? mid : left;
+            right = nums[mid] === target ? right : mid;
+          }
+          result[1] = mid;
+          break;
+        }
+        front = nums[mid] < target ? mid + 1 : front;
+        back = nums[mid] < target ? back : mid - 1;
+      }
+      return result;
+    };
+    console.log(searchRange([8, 8, 9], 8));
+  </script>
+</body>
+
+</html>

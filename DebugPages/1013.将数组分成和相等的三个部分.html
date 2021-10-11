@@ -1,0 +1,57 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: LiarCoder
+ * @Date: 2021-10-07 20:55:21
+ * @LastEditors: LiarCoder
+ * @LastEditTime: 2021-10-07 21:06:59
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1013. 将数组分成和相等的三个部分</title>
+</head>
+
+<body>
+  <script type="text/javascript">
+    /**
+   * @param {number[]} arr
+   * @return {boolean}
+   */
+    var canThreePartsEqualSum = function (arr) {
+      let sum = arr.reduce((acc, cur) => acc + cur);
+      if (sum % 3) {
+        return false;
+      }
+      let target = sum / 3;
+      let i = 0;
+      let j = arr.length - 1;
+      let parts = new Array(3).fill(0);
+      while (parts[0] !== target && i < arr.length) {
+        parts[0] += arr[i];
+        i++;
+      }
+      if (i === arr.length - 1) {
+        return false;
+      }
+      while (parts[2] !== target && j >= i) {
+        parts[2] += arr[j];
+        j--;
+      }
+      if (j < i) {
+        return false;
+      }
+      parts[1] = arr.slice(i, j + 1).reduce((acc, cur) => acc + cur);
+      if (parts[1] !== target) {
+        return false;
+      }
+      return true;
+    };
+    console.log(canThreePartsEqualSum([1,-1,1,-1]));
+  </script>
+</body>
+
+</html>

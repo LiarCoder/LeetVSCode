@@ -1,0 +1,87 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: LiarCoder
+ * @Date: 2021-09-20 15:10:24
+ * @LastEditors: LiarCoder
+ * @LastEditTime: 2021-09-20 21:41:02
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>22. 括号生成</title>
+</head>
+
+<body>
+  <script type="text/javascript">
+    var generateParenthesis = function (n) {
+      let parenthesisStr = '';
+      for (let i = 0; i < n; i++) {
+        // parenthesisStr += '()';
+        parenthesisStr = `(${parenthesisStr})`;
+      }
+      // let results = new Set();
+      let results = [];
+      // let match = [];
+      let temp = [];
+      backtracking(parenthesisStr, [], []);
+      // return [...results.keys()];
+      return results;
+
+      function backtracking(str, used) {
+        if (temp.length === str.length && temp[0] !== ')') {
+          if (isValidParenthesis([...temp])) {
+            // results.add(temp.join(''));
+            results.push(temp.join(''));
+          }
+          return;
+        }
+        for (let i = 0; i < str.length; i++) {
+          // if (used[i]){
+          // 这里是去重的重要操作
+          if (used[i] || (!used[i - 1] && str[i] === str[i - 1] && i > 0)) {
+            continue;
+          }
+          temp.push(str[i]);
+          used[i] = true;
+          // if (temp[0] === ')') {
+          //   break;
+          // }
+          backtracking(str, used);
+          temp.pop();
+          used[i] = false;
+        }
+      }
+      function isValidParenthesis(arr) {
+        // 下面这个if判断可加可不加
+        if (arr[0] === ')') {
+          return false;
+        }
+        let helpStack = [];
+        while (arr.length) {
+          let temp2 = arr.shift();
+          if (helpStack[helpStack.length - 1] === '(' && temp2 === ')') {
+            helpStack.pop();
+          } else {
+            helpStack.push(temp2);
+          }
+        }
+        return !helpStack.length;
+      }
+    };
+    // let test = ['(', '(', ')', ')', ')', '('];
+    // let test2 = ['(', '(', ')', '('];
+    // console.log(isValidParenthesis(test));
+    // console.log(isValidParenthesis(test2));
+    console.log(generateParenthesis(3));
+    console.log(generateParenthesis(4));
+    console.log(generateParenthesis(5));
+    console.log(generateParenthesis(6));
+    console.log(generateParenthesis(8));
+  </script>
+</body>
+
+</html>

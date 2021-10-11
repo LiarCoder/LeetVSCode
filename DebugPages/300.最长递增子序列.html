@@ -1,0 +1,92 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: LiarCoder
+ * @Date: 2021-08-06 12:57:08
+ * @LastEditors: LiarCoder
+ * @LastEditTime: 2021-09-14 21:25:24
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>300. 最长递增子序列</title>
+</head>
+
+<body>
+  <script type="text/javascript">
+
+    // #region
+    // 没有确定好dp数组的含义
+    // var lengthOfLIS = function (nums) {
+    //   let dp = [];
+    //   dp[0] = nums[0];
+    //   for (let i = 1, len = nums.length; i < len; i++) {
+    //     if (dp.length === 0 || nums[i] > dp[dp.length - 1]) {
+    //       dp.push(nums[i]);
+    //       continue;
+    //     }
+    //     dp.pop();
+    //     if (!dp.includes(nums[i])) {
+    //       dp.push(nums[i]);
+    //     }
+    //   }
+    //   return dp.length;
+    // };
+    // #endregion
+
+    // var lengthOfLIS = function (nums) {
+    //   let dp = [];
+    //   let result = 1;
+    //   dp[0] = 1;
+    //   for (let i = 1, len = nums.length; i < len; i++) {
+
+    //   }
+    //   return result;
+    // };
+
+    var lengthOfLIS = function (nums) {
+      let dp = new Array(nums.length).fill(1);
+      let result = 1;
+      dp[0] = 1;
+      for (let i = 1, len = nums.length; i < len; i++) {
+        for (let j = 0; j < i; j++) {
+          if (nums[i] > nums[j]) {
+            dp[i] = Math.max(dp[i], dp[j] + 1);
+          }
+          // else {
+          //   dp[i] = dp[i - 1];
+          // }
+        }
+        result = Math.max(result, dp[i]);
+      }
+      return result;
+    };
+
+    // #region
+    // const lengthOfLIS = (nums) => {
+    //   let dp = Array(nums.length).fill(1);
+    //   let result = 1;
+
+    //   for (let i = 1; i < nums.length; i++) {
+    //     for (let j = 0; j < i; j++) {
+    //       if (nums[i] > nums[j]) {
+    //         dp[i] = Math.max(dp[i], dp[j] + 1);
+    //       }
+    //     }
+    //     result = Math.max(result, dp[i]);
+    //   }
+    //   return result;
+    // };
+    // #endregion
+
+    // console.log(lengthOfLIS([0, 1, 0, 3, 2, 3]));
+    // console.log(lengthOfLIS([7, 7, 7, 7, 7, 7, 7]));
+    // console.log(lengthOfLIS([10, 9, 2, 5, 3, 7, 101, 18]));
+    console.log(lengthOfLIS([4, 10, 4, 3, 8, 9]));
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,41 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: LiarCoder
+ * @Date: 2021-10-02 00:06:14
+ * @LastEditors: LiarCoder
+ * @LastEditTime: 2021-10-02 00:23:01
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>179. 最大数</title>
+</head>
+
+<body>
+  <script type="text/javascript">
+    var largestNumber = function (nums) {
+      nums.sort((x, y) => {
+        let sx = 10, sy = 10;
+        while (sx <= x) {
+          sx *= 10;
+        }
+        while (sy <= y) {
+          sy *= 10;
+        }
+        console.log([...nums]);
+        return '' + (sx * y + x) - ('' + (sy * x + y));
+      })
+      if (nums[0] === 0) {
+        return '0';
+      }
+      return nums.join('');
+    };
+    console.log(largestNumber([3, 30, 34, 5, 9]));
+  </script>
+</body>
+
+</html>

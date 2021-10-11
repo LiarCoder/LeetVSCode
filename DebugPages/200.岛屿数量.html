@@ -1,0 +1,76 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: LiarCoder
+ * @Date: 2021-09-08 11:39:35
+ * @LastEditors: LiarCoder
+ * @LastEditTime: 2021-09-08 17:37:40
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>200. 岛屿数量</title>
+</head>
+
+<body>
+  <script type="text/javascript">
+    var numIslands = function (grid) {
+      let result = 0;
+      // let area = 0;
+      let visited = Array.from({ length: grid.length }).map(
+        () => Array.from({ length: grid[0].length }).fill(false)
+      );
+
+      for (let i = 0; i < grid.length; i++) {
+        for (let j = 0; j < grid[0].length; j++) {
+          if (!visited[i][j] && grid[i][j] === '1') {
+            gridDFS(grid, i, j);
+            result++;
+            // result = Math.max(result, area);
+            // area = 0;
+          }
+        }
+      }
+      return result;
+
+      function gridDFS(grid, row, col) {
+        if (!inGrid(grid, row, col) || visited[row][col] || grid[row][col] === '0') {
+          return;
+        }
+        visited[row][col] = true;
+        // area++;
+        gridDFS(grid, row - 1, col);
+        gridDFS(grid, row + 1, col);
+        gridDFS(grid, row, col - 1);
+        gridDFS(grid, row, col + 1);
+      }
+
+      function inGrid(grid, row, col) {
+        return 0 <= row && row < grid.length && 0 <= col && col < grid[0].length;
+      }
+    };
+    let grid = [
+      ["1", "1", "1", "1", "0"],
+      ["1", "1", "0", "1", "0"],
+      ["1", "1", "0", "0", "0"],
+      ["0", "0", "0", "0", "0"]
+    ];
+    let grid2 = [
+      ['0', '0', '1', '0', '0', '0', '0', '1', '0', '0', '0', '0', '0'],
+      ['0', '0', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '0'],
+      ['0', '1', '1', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0'],
+      ['0', '1', '0', '0', '1', '1', '0', '0', '1', '0', '1', '0', '0'],
+      ['0', '1', '0', '0', '1', '1', '0', '0', '1', '1', '1', '0', '0'],
+      ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1', '0', '0'],
+      ['0', '0', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '0'],
+      ['0', '0', '0', '0', '0', '0', '0', '1', '1', '0', '0', '0', '0']
+    ];
+    console.log(numIslands(grid));
+    console.log(numIslands(grid2));
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>54. 螺旋矩阵</title>
+</head>
+
+<body>
+  <script type="text/javascript">
+    var spiralOrder = function (matrix) {
+      let row = matrix.length - 1;
+      let col = matrix[0].length - 1;
+      let result = [];
+      let wrapperNum = Math.ceil(Math.min(row + 1, col + 1) / 2);
+      for (let i = 0; i < wrapperNum; i++) {
+        let wrapper = traverseWrapper(matrix, [i, col - i, i, row - i]);
+        result = result.concat(wrapper);
+      }
+      return result;
+    };
+
+    // range = [colStart, colEnd, rowStart, rowEnd]
+    function traverseWrapper(arr, range) {
+      let wrapper = [];
+      for (let i = range[0]; i <= range[1] - 1; i++) {
+        wrapper.push(arr[range[2]][i]);
+      }
+      for (let i = range[2]; i <= range[3]; i++) {
+        wrapper.push(arr[i][range[1]]);
+      }
+      for (let i = range[1] - 1; i >= range[0] + 1; i--) {
+        if(range[2] === range[3]) {
+          break;
+        }
+        wrapper.push(arr[range[3]][i]);
+      }
+      for (let i = range[3]; i >= range[2] + 1; i--) {
+        if(range[0] === range[1]) {
+          break;
+        }
+        wrapper.push(arr[i][range[0]]);
+      }
+      return wrapper;
+    }
+
+    // console.log(spiralOrder([[1, 2, 3], [4, 5, 6], [7, 8, 9]]));
+    // console.log(spiralOrder([[1,2,3,4],[5,6,7,8],[9,10,11,12]]));
+    // console.log(spiralOrder([[1,2,3,4],[5,6,7,8]]));
+    console.log(spiralOrder([[3], [2], [1], [0]])); // 只有一列元素
+    console.log(spiralOrder([[4,5,6,7]])); // 只有一行元素
+  </script>
+</body>
+
+</html>

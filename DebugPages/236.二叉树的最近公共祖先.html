@@ -1,0 +1,127 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: LiarCoder
+ * @Date: 2021-10-08 22:29:31
+ * @LastEditors: LiarCoder
+ * @LastEditTime: 2021-10-09 22:03:20
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>236. 二叉树的最近公共祖先</title>
+</head>
+
+<body>
+  <script type="text/javascript" src="../create-leetcode-tree.js"></script>
+  <script type="text/javascript">
+    // 初始解法（回溯）
+    //#region 
+    // var lowestCommonAncestor = function (root, p, q) {
+    //   let temp = null;
+    //   let hasFound = false;
+    //   getPath(root, p, [root]);
+    //   let pathP = [...temp];
+    //   hasFound = false;
+    //   getPath(root, q, [root]);
+    //   let pathQ = [...temp];
+    //   let node = null;
+    //   while (pathP.length && pathQ.length && pathP[0].val === pathQ[0].val) {
+    //     node = pathP.shift();
+    //     pathQ.shift();
+    //   }
+    //   return node;
+
+
+    //   function getPath(root, node, path) {
+    //     if (hasFound || (!root.left && !root.right) || (root.val === node.val)) {
+    //       if (root.val === node.val) {
+    //         temp = [...path];
+    //         hasFound = true;
+    //       }
+    //       return;
+    //     }
+    //     if (root.left) {
+    //       path.push(root.left);
+    //       getPath(root.left, node, path);
+    //       path.pop();
+    //     }
+    //     if (root.right) {
+    //       path.push(root.right);
+    //       getPath(root.right, node, path);
+    //       path.pop();
+    //     }
+    //   }
+    // };
+    //#endregion
+
+    // 初始解法改进版（回溯）
+    //#region 
+    // var lowestCommonAncestor = function (root, p, q) {
+    //   let paths = [];
+    //   getPath(root, [p.val, q.val], [root]);
+    //   let ancestor = null;
+    //   while (paths[0].length && paths[1].length && paths[0][0].val === paths[1][0].val) {
+    //     ancestor = paths[0].shift();
+    //     paths[1].shift();
+    //   }
+    //   return ancestor;
+
+    //   function getPath(root, nodes, path) {
+    //     // if (paths.length === 2) {
+    //     //   return;
+    //     // }
+    //     if (paths.length === 2 || (!root.left && !root.right)) {
+    //       nodes.includes(root.val) ? paths.push([...path]) : null;
+    //       return;
+    //     }
+    //     if (nodes.includes(root.val)) {
+    //       paths.push([...path]);
+    //       if (paths.length === 2) {
+    //         return;
+    //       }
+    //     }
+    //     if (root.left) {
+    //       path.push(root.left);
+    //       getPath(root.left, nodes, path);
+    //       path.pop();
+    //     }
+    //     if (root.right) {
+    //       path.push(root.right);
+    //       getPath(root.right, nodes, path);
+    //       path.pop();
+    //     }
+    //   }
+    // };
+    //#endregion
+
+    // 后序遍历
+    var lowestCommonAncestor = function (root, p, q) {
+      let result = null;
+      postOrder(root, p, q);
+      return result;
+
+      function postOrder(root, p, q) {
+        if (root === p || root === q || !root) {
+          return root;
+        }
+        let left = postOrder(root.left, p, q);
+        let right = postOrder(root.right, p, q);
+        if (left && right) {
+          result = root;
+        }
+        result = left ? left : right;
+      }
+    };
+    let root = createTree([3, 5, 1, 6, 2, 0, 8, null, null, 7, 4]);
+    // let root = createTree([1, 3, 2]);
+    let p = new TreeNode(2);
+    let q = new TreeNode(6);
+    console.log(lowestCommonAncestor(root, p, q));
+  </script>
+</body>
+
+</html>

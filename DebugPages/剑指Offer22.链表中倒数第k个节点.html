@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>剑指 Offer 22. 链表中倒数第k个节点</title>
+  <script type="text/javascript" src="./create-leetcode-singly-list.js"></script>
+</head>
+
+<body>
+  <script type="text/javascript">
+
+    // #region
+    // 双层while循环
+    // var getKthFromEnd = function (head, k) {
+    //   let p = head;
+    //   while (head) {
+    //     let length = 0;
+    //     while (p) {
+    //       length++;
+    //       p = p.next;
+    //     }
+    //     console.log(length);
+    //     if (length === k) {
+    //       return head;
+    //     }
+    //     head = head.next;
+    //     p = head;
+    //   }
+    //   return null;
+    // };
+    // #endregion
+
+    // #region
+    // 只计算一次链表长度
+    // var getKthFromEnd = function (head, k) {
+    //   let p = head;
+    //   let length = 0;
+    //   while (p) {
+    //     length++;
+    //     p = p.next;
+    //   }
+    //   while (length - k > 0) {
+    //     head = head.next;
+    //     k++;
+    //   }
+    //   return head;
+    // };
+    // #endregion
+
+    var getKthFromEnd = function (head, k) {
+      let p = head;
+      while (k - 1 > 0) {
+        p = p.next;
+        k--;
+      }
+      while (p.next) {
+        head = head.next;
+        p = p.next;
+      }
+      return head;
+    };
+
+    let list = createSinglyList([1, 2, 3, 4, 5]);
+    console.log(getKthFromEnd(list, 2));
+  </script>
+</body>
+
+</html>

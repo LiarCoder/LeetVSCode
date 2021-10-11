@@ -1,0 +1,70 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: LiarCoder
+ * @Date: 2021-08-17 12:16:01
+ * @LastEditors: LiarCoder
+ * @LastEditTime: 2021-09-04 13:42:23
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>160. 相交链表</title>
+</head>
+
+<body>
+  <script type="text/javascript" src="../create-leetcode-singly-list.js"></script>
+  <script type="text/javascript">
+    var getIntersectionNode = function (headA, headB) {
+      if (!headA || !headB) {
+        return null;
+      }
+      let lengthDiff = getListLength(headA) - getListLength(headB);
+      let p = headA;
+      let q = headB;
+      // lengthDiff > 0 ? p = synchronizeLength(p, lengthDiff) : q = synchronizeLength(q, lengthDiff);
+
+      if (lengthDiff > 0) {
+        p = synchronizeLength(p, lengthDiff);
+      } else {
+        q = synchronizeLength(q, lengthDiff);
+      }
+
+      while (p !== q) {
+        if (!p) {
+          return null;
+        }
+        p = p.next;
+        q = q.next;
+      }
+      return p;
+
+      function getListLength(head) {
+        let length = 0;
+        while (head) {
+          length++;
+          head = head.next;
+        }
+        return length;
+      }
+      function synchronizeLength(head, diff) {
+        let absoluteDiff = Math.abs(diff);
+        while (absoluteDiff > 0) {
+          head = head.next;
+          absoluteDiff--;
+        }
+        return head;
+      }
+    };
+
+    let listA = createSinglyList([4, 1, 8, 4, 5]);
+    let listB = createSinglyList([5, 0, 1, 8, 4, 5]);
+
+    console.log(getIntersectionNode(listA, listB));
+  </script>
+</body>
+
+</html>
