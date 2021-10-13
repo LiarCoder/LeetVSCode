@@ -4,7 +4,7 @@
  * @Author: LiarCoder
  * @Date: 2021-10-12 13:09:37
  * @LastEditors: LiarCoder
- * @LastEditTime: 2021-10-12 13:36:25
+ * @LastEditTime: 2021-10-13 14:58:46
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -22,7 +22,7 @@
    * @param {string} t
    * @return {string}
    */
-    var minWindow = function (s, t) {
+    var minWindow1 = function (s, t) {
       let i = 0;
       let j = 1;
       let res = '';
@@ -56,8 +56,93 @@
         });
       }
     };
+
+    var minWindow2 = function (s, t) {
+      let res = '';
+      if (s.length < t.length) {
+        return res;
+      }
+      let lastAppear = Array.from({ length: t.length });
+      let temp = s;
+      lastAppear.map((cur, idx, arr) => {
+        let rear = arr.length - 1 - idx;
+        let last = temp.lastIndexOf(t[rear]);
+        temp = `${temp.slice(0, last)}0${temp.slice(last + 1)}`;
+        arr[rear] = last;
+      });
+      let i = new Array(t.length).fill(-1);
+      let subStr = '';
+      while (!i.every((cur, idx) => cur === lastAppear[idx])) {
+        let minIndex = Math.min(...i);
+        temp = s;
+        i.fill(-1);
+        for (let j = 0; j < i.length; j++) {
+          let next = temp.indexOf(t[j], minIndex + 1);
+          if (next === lastAppear[t.indexOf(t[j], j + 1)]) {
+            return res;
+          }
+          temp = `${temp.slice(0, next)}0${temp.slice(next + 1)}`;
+          i[j] = next;
+        }
+        subStr = s.slice(Math.min(...i), Math.max(...i) + 1);
+        res = !res.length || res.length > subStr.length ? subStr : res;
+      }
+      return res;
+    };
+
+    var minWindow3 = function (s, t) {
+      let i = 0;
+      let j = 0;
+      let res = '';
+      let subStr = '';
+      let head = '';
+      let map = new Map();
+      for (let ch of t) {
+        map.set(ch, map.has(ch) ? map.get(ch) + 1 : 1);
+      }
+      for (; j < s.length; j++) {
+        if (!map.has(s[j])) {
+          continue;
+        }
+        subStr = s.slice(i, j + 1);
+        map.set(s[j], map.get(s[j]) - 1);
+        if ([...map.values()].every(cur => cur <= 0)) {
+          while ([...map.values()].every(cur => cur <= 0)) {
+            head = subStr[0];
+            subStr = subStr.slice(1);
+            if (map.has(s[i])) {
+              map.set(s[i], map.get(s[i]) + 1);
+            }
+            i++;
+          }
+          res = !res.length || res.length > subStr.length ? head + subStr : res;
+        }
+      }
+      return res;
+    };
+    // let minWindow = minWindow1;
+    // let minWindow = minWindow2;
+    let minWindow = minWindow3;
     console.log(minWindow("ADOBECODEBANC", "ABC"));
+    // console.log(minWindow("AAOBECODEBANC", "ABCA"));
+    // console.log(minWindow("aaflslflsldkalskaaa", "aaa"));
+    // console.log(minWindow("aaaaaaaaaaaabbbbbcdd", "abcdd"));
   </script>
+  ADOBECODEBANC
+  AAOBECODEBANC
+
+  "AOBECODEBANC"
+  "ABCA"
+  "a"
+  "aa"
+  "a"
+  "a"
+  "a"
+  "ab"
+  "aaflslflsldkalskaaa"
+  "aaa"
+  "aaaaaaaaaaaabbbbbcdd"
+  "abcdd"
 </body>
 
 </html>
