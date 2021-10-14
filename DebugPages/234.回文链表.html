@@ -1,0 +1,54 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: LiarCoder
+ * @Date: 2021-10-13 16:05:43
+ * @LastEditors: LiarCoder
+ * @LastEditTime: 2021-10-13 16:18:03
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>234. 回文链表</title>
+</head>
+
+<body>
+  <script type="text/javascript" src="../create-leetcode-singly-list.js"></script>
+  <script type="text/javascript">
+    var isPalindrome = function (head) {
+      let reversedList = head;
+      let fast = head;
+      let slow = head.next;
+      let q = null;
+      let step = 0;
+      // head.next = null;
+      while (fast.next) {
+        fast = fast.next;
+        step++;
+        if (!(step % 2)) {
+          q = slow.next;
+          slow.next = reversedList;
+          reversedList = slow;
+          slow = q;
+        }
+      }
+      fast = step % 2 ? q : q.next;
+      while (fast) {
+        if (fast.val !== reversedList.val) {
+          return false;
+        }
+        fast = fast.next;
+        reversedList = reversedList.next;
+      }
+      return true;
+    };
+    // let list = createSinglyList([1, 2, 2, 1]);
+    let list = createSinglyList([1, 2, 3]);
+    console.log(isPalindrome(list));
+  </script>
+</body>
+
+</html>
