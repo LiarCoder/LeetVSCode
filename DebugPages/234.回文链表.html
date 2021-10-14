@@ -4,7 +4,7 @@
  * @Author: LiarCoder
  * @Date: 2021-10-13 16:05:43
  * @LastEditors: LiarCoder
- * @LastEditTime: 2021-10-13 16:18:03
+ * @LastEditTime: 2021-10-14 20:09:07
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -18,35 +18,42 @@
 <body>
   <script type="text/javascript" src="../create-leetcode-singly-list.js"></script>
   <script type="text/javascript">
-    var isPalindrome = function (head) {
-      let reversedList = head;
-      let fast = head;
-      let slow = head.next;
-      let q = null;
-      let step = 0;
-      // head.next = null;
-      while (fast.next) {
-        fast = fast.next;
-        step++;
-        if (!(step % 2)) {
-          q = slow.next;
-          slow.next = reversedList;
-          reversedList = slow;
-          slow = q;
-        }
-      }
-      fast = step % 2 ? q : q.next;
-      while (fast) {
-        if (fast.val !== reversedList.val) {
-          return false;
-        }
-        fast = fast.next;
-        reversedList = reversedList.next;
-      }
-      return true;
-    };
-    // let list = createSinglyList([1, 2, 2, 1]);
-    let list = createSinglyList([1, 2, 3]);
+var isPalindrome = function (head) {
+  let r = null;
+  let fast = head;
+  let slow = head;
+  // let p = head.next;
+  let q = null;
+  let step = 0;
+  while (fast) {
+    fast = fast.next;
+    step++;
+    if (step % 2) {
+      continue;
+    }
+    // slow = slow.next;
+    q = slow.next;
+    slow.next = r;
+    r = slow;
+    slow = q;
+  }
+  // head.next = null;
+  // r = step % 2 ? r : r.next;
+  // r = step % 2 ? slow : r;
+  // fast = p;
+  fast = step % 2 ? slow.next : slow;
+  while (fast) {
+    if (fast.val !== r.val) {
+      return false;
+    }
+    fast = fast.next;
+    r = r.next;
+  }
+  return true;
+};
+    let list = createSinglyList([1, 2, 3, 3, 2, 1]);
+    // let list = createSinglyList([1, 2, 3, 2, 1]);
+    // let list = createSinglyList([1, 2, 3]);
     console.log(isPalindrome(list));
   </script>
 </body>
