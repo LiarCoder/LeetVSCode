@@ -4,7 +4,7 @@
  * @Author: LiarCoder
  * @Date: 2021-10-16 17:54:50
  * @LastEditors: LiarCoder
- * @LastEditTime: 2021-10-16 17:58:21
+ * @LastEditTime: 2021-10-17 16:34:38
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -18,7 +18,7 @@
 <body>
   <script type="text/javascript" src="../create-leetcode-singly-list.js"></script>
   <script type="text/javascript">
-    var sortList = function (head) {
+    var sortList1 = function (head) {
       let dummy = new ListNode(-Infinity, head);
       let p = dummy;
       let q = dummy.next;
@@ -41,6 +41,30 @@
       }
       return dummy.next;
     };
+
+    var sortList2 = function (head) {
+      let dummy = new ListNode(-Infinity, null);
+      let p = head;
+      let q = head.next;
+      let help = dummy;
+      while (p) {
+        while (help) {
+          if (!help.next || help.next.val >= p.val) {
+            // insertNode();
+            p.next = help.next;
+            help.next = p;
+            break;
+          }
+          help = help.next;
+        }
+        help = dummy;
+        p = q;
+        q = q ? q.next : q;
+      }
+      return dummy.next;
+    };
+    // let sortList = sortList1;
+    let sortList = sortList2;
     let list = createSinglyList([4, 2, 1, 3]);
     console.log(sortList(list));
   </script>
