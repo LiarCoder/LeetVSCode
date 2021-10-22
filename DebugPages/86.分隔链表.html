@@ -1,0 +1,49 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: LiarCoder
+ * @Date: 2021-10-22 20:30:07
+ * @LastEditors: LiarCoder
+ * @LastEditTime: 2021-10-22 21:10:01
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>86. 分隔链表</title>
+</head>
+
+<body>
+  <script type="text/javascript" src="../create-leetcode-singly-list.js"></script>
+  <script type="text/javascript">
+    var partition = function (head, x) {
+      let dummy = new ListNode(0, head);
+      let lessThanX = new ListNode(0, null);
+      let rear = lessThanX;
+      let p = dummy;
+      // let q = dummy.next;
+      let temp = null;
+      while (p.next) {
+        if (p.next.val < x) {
+          temp = p.next;
+          // q = q.next;
+          p.next = p.next.next;
+          temp.next = null
+          rear.next = temp;
+          rear = rear.next;
+          continue;
+        }
+        p = p.next;
+        // q = q.next;
+      }
+      rear.next = dummy.next;
+      return lessThanX.next;
+    };
+    let head = createSinglyList([1, 4, 3, 2, 5, 2]);
+    console.log(partition(head, 3));
+  </script>
+</body>
+
+</html>
