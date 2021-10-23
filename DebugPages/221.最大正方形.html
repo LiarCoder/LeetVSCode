@@ -1,0 +1,46 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: LiarCoder
+ * @Date: 2021-10-23 13:34:24
+ * @LastEditors: LiarCoder
+ * @LastEditTime: 2021-10-23 13:39:30
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>221. 最大正方形</title>
+</head>
+
+<body>
+  <script type="text/javascript">
+    var maximalSquare = function (matrix) {
+      let width = 0;
+      let dp = Array.from({ length: matrix.length + 1 }).map(
+        () => Array.from({ length: matrix[0].length + 1 }).fill(0)
+      );
+
+      for (let i = 1; i <= matrix.length; i++) {
+        for (let j = 1; j <= matrix[0].length; j++) {
+          if (matrix[i - 1][j - 1] === "1") {
+            dp[i][j] = Math.min(dp[i - 1][j - 1], dp[i - 1][j], dp[i][j - 1]) + 1;
+            width = Math.max(dp[i][j], width);
+          }
+        }
+      }
+      return width * width;
+    };
+    let matrix = [
+      ["1", "0", "1", "0", "0"],
+      ["1", "0", "1", "1", "1"],
+      ["1", "1", "1", "1", "1"],
+      ["1", "0", "0", "1", "0"]
+    ];
+    console.log(maximalSquare(matrix));
+  </script>
+</body>
+
+</html>
