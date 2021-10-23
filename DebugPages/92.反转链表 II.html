@@ -1,0 +1,63 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: LiarCoder
+ * @Date: 2021-10-23 10:09:06
+ * @LastEditors: LiarCoder
+ * @LastEditTime: 2021-10-23 11:01:22
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>92. 反转链表 II</title>
+</head>
+
+<body>
+  <script type="text/javascript" src="../create-leetcode-singly-list.js"></script>
+  <script type="text/javascript">
+    /**
+   * Definition for singly-linked list.
+   * function ListNode(val, next) {
+   *     this.val = (val===undefined ? 0 : val)
+   *     this.next = (next===undefined ? null : next)
+   * }
+   */
+    /**
+     * @param {ListNode} head
+     * @param {number} left
+     * @param {number} right
+     * @return {ListNode}
+     */
+    var reverseBetween = function (head, left, right) {
+      let dummy = new ListNode(0, head);
+      let p = head;
+      let q = null;
+      let rear = null;
+      let steps = left - 2;
+      while (steps > 0) {
+        p = p.next;
+        steps--;
+      }
+      head = p;
+      p = p.next;
+      rear = p;
+      head.next = null;
+      while (left <= right) {
+        q = p.next;
+        p.next = head.next;
+        head.next = p;
+        p = q;
+        left++;
+      }
+      rear.next = q;
+      return dummy.next;
+    };
+    let head = createSinglyList([1, 2, 3, 4, 5]);
+    console.log(reverseBetween(head, 2, 4));
+  </script>
+</body>
+
+</html>
