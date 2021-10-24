@@ -1,0 +1,93 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: LiarCoder
+ * @Date: 2021-10-24 12:13:37
+ * @LastEditors: LiarCoder
+ * @LastEditTime: 2021-10-24 14:15:49
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>67. 二进制求和</title>
+</head>
+
+<body>
+  <script type="text/javascript">
+    // 使用原生API——通过
+    var addBinary1 = function (a, b) {
+      return (BigInt(`0b${a}`) + BigInt(`0b${b}`)).toString(2);
+    };
+
+    // 使用位运算——由于位数限制未通过
+    var addBinary2 = function (a, b) {
+      if (b[0] === '0') {
+        return a;
+      }
+      a = '0b' + a;
+      b = '0b' + b;
+      let sum = (a ^ b).toString(2);
+      let carry = ((a & b) << 1).toString(2);
+      return addBinary(sum, carry);
+    };
+
+    // 使用位运算——通过
+    var addBinary3 = function (a, b) {
+      a = BigInt(`0b${a}`);
+      b = BigInt(`0b${b}`);
+      let sum = a;
+      let carry = b;
+      while (b) {
+        sum = a ^ b;
+        carry = (a & b) << BigInt(1);
+        [a, b] = [sum, carry];
+      }
+      return sum.toString(2);
+    };
+
+    // 通用方法——通过
+    var addBinary4 = function (a, b) {
+      let shortNum, longNum;
+      [shortNum, longNum] = (a.length < b.length) ? [a, b] : [b, a];
+
+      let shortArr = shortNum.split('').map(Number);
+      let longArr = longNum.split('').map(Number);
+
+      for (let i = shortNum.length; i < longNum.length; i++) {
+        shortArr.unshift(0);
+      }
+      longArr.unshift(0);
+      for (let i = shortArr.length - 1; i >= 0; i--) {
+        longArr[i] = (shortArr[i] + longArr[i + 1]) >= 2 ? longArr[i] + 1 : longArr[i];
+        longArr[i + 1] = (shortArr[i] + longArr[i + 1]) % 2;
+      }
+
+      if (longArr[0] === 0) {
+        longArr.shift();
+      }
+      return longArr.join('');
+    };
+
+    // let addBinary = addBinary1;
+    // let addBinary = addBinary2;
+    // let addBinary = addBinary3;
+
+    let addBinary = addBinary4;
+    console.log(addBinary("10100000100100110110010000010101111011011", "11010100101110111000111110011000101010000"));
+  </script>
+  1010001110101110001101010001011
+  1111111110111111111101100000000
+
+  输入：
+  "10100000100100110110010000010101111011011001101110111111111101000000101111001110001111100001101"
+  "110101001011101110001111100110001010100001101011101010000011011011001011101111001100000011011110011"
+  输出：
+  "110111101100010011000101110110100000011101000101011000000000000000000000000000000000000000000000000"
+  预期结果：
+  "110111101100010011000101110110100000011101000101011001000011011000001100011110011010010011000000000"
+</body>
+
+</html>
