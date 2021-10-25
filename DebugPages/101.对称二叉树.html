@@ -1,0 +1,55 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: LiarCoder
+ * @Date: 2021-10-25 14:11:12
+ * @LastEditors: LiarCoder
+ * @LastEditTime: 2021-10-25 15:13:43
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>101. 对称二叉树</title>
+</head>
+
+<body>
+  <script type="text/javascript" src="../create-leetcode-tree.js"></script>
+  <script type="text/javascript">
+    var isSymmetric = function (root) {
+      // let result = [];
+      let queue = [root.left, root.right];
+      while (queue.length) {
+        let level = [];
+        for (let i = 0, len = queue.length; i < len; i++) {
+          let node = queue.shift();
+          if (node) {
+            queue.push(node.left, node.right);
+          }
+          let nodeVal = node ? node.val : null;
+          if (i < len / 2) {
+            level.push(nodeVal);
+            continue;
+          }
+          if (nodeVal === level[level.length - 1]) {
+            level.pop();
+          }
+        }
+        if (level.length) {
+          return false;
+        }
+      }
+      return true;
+    };
+    let root = createTree([2, 3, 3, 4, 5, 5, 4, null, null, 8, 9, null, null, 9, 8]);
+    console.log(isSymmetric(root));
+  </script>
+  [1,2,2,3,4,4,3]
+  [1,2,2,3,null,3,null]
+  [1]
+  [2,3,3,4,5,5,4,null,null,8,9,null,null,9,8]
+</body>
+
+</html>
