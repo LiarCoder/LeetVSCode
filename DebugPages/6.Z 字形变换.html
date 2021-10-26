@@ -1,0 +1,50 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: LiarCoder
+ * @Date: 2021-10-26 15:31:00
+ * @LastEditors: LiarCoder
+ * @LastEditTime: 2021-10-26 15:51:18
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>6. Z 字形变换</title>
+</head>
+
+<body>
+  <script type="text/javascript">
+    var convert = function (s, numRows) {
+      if (numRows === 1) {
+        return s;
+      }
+      let lines = Array.from({ length: numRows }).map(
+        () => []
+      );
+      let isDown = false;
+      let position = 0;
+      let remaining = 0;
+      for (let i = 0; i < s.length; i++) {
+        remaining = i % (numRows - 1);
+        isDown = remaining ? isDown : !isDown;
+        position = isDown ? remaining : numRows - remaining - 1;
+        lines[position].push(s[i]);
+      }
+      lines = lines.reduce((acc, cur) => acc.concat(cur));
+      return lines.join('');
+    };
+    // console.log(convert("A", 1));
+    console.log(convert("PAYPALISHIRING", 1));
+  </script>
+  "PAYPALISHIRING"
+  3
+  "PAYPALISHIRING"
+  4
+  "A"
+  1
+</body>
+
+</html>
