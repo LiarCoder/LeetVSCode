@@ -1,0 +1,128 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: LiarCoder
+ * @Date: 2021-10-27 14:06:16
+ * @LastEditors: LiarCoder
+ * @LastEditTime: 2021-10-27 17:39:22
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>39. 组合总和</title>
+</head>
+
+<body>
+  <script type="text/javascript">
+    /**
+     * @param {number[]} candidates
+     * @param {number} target
+     * @return {number[][]}
+     */
+    // 初始做法，没有去重枝剪操作，结果中有重复的结果
+    var combinationSum1 = function (candidates, target) {
+      let results = [];
+      let temp = [];
+      backtracking(candidates, 0);
+      return results;
+
+      function backtracking(nums, sum) {
+        if (sum === target) {
+          results.push([...temp]);
+          return;
+        }
+        for (let i = 0; i < nums.length; i++) {
+          if (sum > target) {
+            continue;
+          }
+          temp.push(nums[i]);
+          backtracking(nums, sum + nums[i]);
+          temp.pop();
+        }
+      }
+    };
+
+    // 尝试枝剪，但是没有得到预期结果
+    var combinationSum2 = function (candidates, target) {
+      let results = [];
+      let temp = [];
+      let count = new Array(candidates.length).fill(0);
+      let used = new Array(candidates.length).fill(false);
+      let depth = 1;
+      backtracking(candidates, 0, used, count);
+      return results;
+
+      function backtracking(nums, sum, used, count) {
+        if (sum === target) {
+          results.push([...temp]);
+          count.fill(0);
+          return;
+        }
+        for (let i = 0; i < nums.length; i++) {
+          if (depth === 1) {
+            count.fill(0);
+          }
+          if (sum > target || (!used[i] && count[i] > 0)) {
+            continue;
+          }
+          temp.push(nums[i]);
+          used[i] = true;
+          count[i]++;
+          depth++;
+          backtracking(nums, sum + nums[i], used, count);
+          depth--;
+          used[i] = false;
+          temp.pop();
+        }
+      }
+    };
+
+    // 成功通过
+    var combinationSum3 = function (candidates, target) {
+      // 注意不要漏了这个排序操作
+      candidates.sort((a, b) => a - b);
+      let results = [];
+      let temp = [];
+      backtracking(candidates, 0, 0);
+      return results;
+
+      function backtracking(nums, sum, start) {
+        if (sum === target) {
+          results.push([...temp]);
+          return;
+        }
+        for (let i = start; i < nums.length; i++) {
+          if (sum > target) {
+            continue;
+          }
+          temp.push(nums[i]);
+          backtracking(nums, sum + nums[i], i);
+          temp.pop();
+        }
+      }
+    };
+
+    // let combinationSum = combinationSum1;
+    // let combinationSum = combinationSum2;
+    let combinationSum = combinationSum3;
+    console.log(combinationSum([2, 3, 6, 7], 7));
+    console.log(combinationSum([2, 3, 5], 8));
+  </script>
+  [2,3,6,7]
+  7
+  [2,3,5]
+  8
+  [2]
+  1
+  [1]
+  1
+  [1]
+  2
+  [2,7,6,3,5,1]
+  9
+</body>
+
+</html>
