@@ -1,0 +1,92 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: LiarCoder
+ * @Date: 2021-11-03 12:16:37
+ * @LastEditors: LiarCoder
+ * @LastEditTime: 2021-11-03 18:04:00
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>214. 最短回文串</title>
+</head>
+
+<body>
+  <script type="text/javascript">
+    // 暴力解法
+    var shortestPalindrome1 = function (s) {
+      if (!s.length) {
+        return s;
+      }
+      let reversedStr = s.split('').reverse().join('');
+      for (let i = 0, len = s.length; i < len; i++) {
+        if (s.slice(0, len - i) === reversedStr.slice(i)) {
+          return s.slice(len - i).split('').reverse().join('') + s;
+        }
+      }
+    };
+
+    // KMP解法
+    var shortestPalindrome2 = function (s) {
+      console.log(generatePrefixTable(s));
+      // let str = s + '#' + s.split('').reverse().join('');
+      // let start = generatePrefixTable(str)[str.length - 1];
+      // return s.slice(start).split('').reverse().join('') + s;
+
+    /**
+      * @description: 生成匹配模式串 pattern 的前缀表
+      * @param {String} pattern
+      * @return {Array} prefixTab
+      */
+    function generatePrefixTable(pattern) {
+      // prefixTab 是最终生成的前缀表
+      let prefixTab = [0];
+      // front 是当前子串的前缀末尾索引
+      let front = 0;
+      // back 是当前子串的后缀末尾索引
+      for (let back = 1; back < pattern.length; back++) {
+        while (front > 0 && pattern[front] !== pattern[back]) {
+          front = prefixTab[front - 1];
+        }
+        if (pattern[front] === pattern[back]) {
+          front++;
+        }
+        prefixTab[back] = front;
+      }
+      return prefixTab;
+    }
+  };
+
+    // let shortestPalindrome = shortestPalindrome1;
+    let shortestPalindrome = shortestPalindrome2;
+    // console.log(shortestPalindrome("aacecaaa"));
+    // console.log(shortestPalindrome("aaa"));
+    console.log(shortestPalindrome("ababcabaa"));
+  </script>
+  输入
+  "xaca"
+  "aacecaaa"
+  "xaacecaaa"
+  "abcd"
+  "aabba"
+
+  输出
+  "aca"
+  "aacecaa"
+  "aacecaa"
+  "a"
+  "abba"
+
+  预期结果
+  "acaxaca"
+  "aaacecaaa"
+  "aaacecaaxaacecaaa"
+  "dcbabcd"
+  "abbaabba"
+</body>
+
+</html>
