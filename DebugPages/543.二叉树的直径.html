@@ -1,0 +1,53 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: LiarCoder
+ * @Date: 2021-11-04 20:05:42
+ * @LastEditors: LiarCoder
+ * @LastEditTime: 2021-11-04 20:08:01
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>543. 二叉树的直径</title>
+</head>
+
+<body>
+  <script type="text/javascript" src="../create-leetcode-tree.js"></script>
+  <script type="text/javascript">
+    var diameterOfBinaryTree = function (root) {
+      // 初始化直径为0
+      let diameter = 0;
+      // 获取整棵二叉树的深度，在这个过程中不断地对diameter的值做更新，使所得直径的值保持最大
+      getDepth(root);
+      // 最后将获得的最大直径作为最后结果返回
+      return diameter;
+
+      // getDepth用于获取以二叉树中的某个节点node为根节点的子树的深度
+      // 这里的逻辑和上面我提到的博客中的逻辑是一样的，这里就不再赘述了
+      function getDepth(node) {
+        if (!node) {
+          return 0;
+        }
+        let rightDepth = getDepth(node.right);
+        let leftDepth = getDepth(node.left);
+        // 在获取了node的左右子树的深度后，在返回node子树的深度之前，
+        // 顺便更新diameter的值为最新的最大值，这也是和之前那道题唯一不同的地方
+        // 注意，这里子树的深度刚好就是我们要的节点之间的边的条数，所以直接相加就好了
+        diameter = Math.max(diameter, rightDepth + leftDepth);
+        // 最后不要忘了getDepth函数的本职工作是获取node子树的深度，所以要返回相应的值
+        return Math.max(rightDepth, leftDepth) + 1;
+      }
+    };
+    // let root = createTree([3, 5, 1, 6, 2, 0, 8, null, null, 7, 4]);
+    // let root = createTree([3, 9, 20, null, null, 15, 7]);
+    // let root = createTree([1, 2, 3, 4, 5, null, null, 6, null, null, 7, null, 8, null, 9]);
+    let root = createTree([1, 2, 3, 4, 5]);
+    console.log(diameterOfBinaryTree(root));
+  </script>
+</body>
+
+</html>
