@@ -1,0 +1,46 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: LiarCoder
+ * @Date: 2021-11-04 18:01:00
+ * @LastEditors: LiarCoder
+ * @LastEditTime: 2021-11-04 18:03:08
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>104. 二叉树的最大深度</title>
+</head>
+
+<body>
+  <script type="text/javascript" src="../create-leetcode-tree.js"></script>
+  <script type="text/javascript">
+    var maxDepth = function (root) {
+      // result用于存储左右子树中的较大高度
+      let result = 0;
+      // leftDepth和rightDepth用于分别存储左子树的最大高度和左子树的最大高度
+      let leftDepth = 0;
+      let rightDepth = 0;
+      // 如果当前处理节点不为空，则往下递归遍历计算当前节点的左右子树的最大高度
+      if (root) {
+        leftDepth = maxDepth(root.left);
+        rightDepth = maxDepth(root.right);
+        // result取左右子树的最大高度中的较大值以保证最后的结果是最大的
+        result = Math.max(leftDepth, rightDepth);
+        // 最后返回的高度为左右子树的最大高度中的较大值加上根节点这一层高度
+        return result + 1;
+      }
+      // 如果当前节点为空，则返回高度为0
+      return 0;
+    };
+    // let root = createTree([3, 5, 1, 6, 2, 0, 8, null, null, 7, 4]);
+    let root = createTree([3, 9, 20, null, null, 15, 7]);
+    // let root = createTree([1, 3, 2]);
+    console.log(maxDepth(root));
+  </script>
+</body>
+
+</html>
