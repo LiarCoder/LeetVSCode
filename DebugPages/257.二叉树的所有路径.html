@@ -1,0 +1,90 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: LiarCoder
+ * @Date: 2021-11-13 17:47:42
+ * @LastEditors: LiarCoder
+ * @LastEditTime: 2021-11-13 23:32:50
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>257. 二叉树的所有路径</title>
+</head>
+
+<body>
+  <script type="text/javascript" src="../create-leetcode-tree.js"></script>
+  <script type="text/javascript">
+    /**
+   * Definition for a binary tree node.
+   * function TreeNode(val, left, right) {
+   *     this.val = (val===undefined ? 0 : val)
+   *     this.left = (left===undefined ? null : left)
+   *     this.right = (right===undefined ? null : right)
+   * }
+   */
+    /**
+     * @param {TreeNode} root
+     * @return {string[]}
+     */
+    var binaryTreePaths1 = function (root) {
+      // let path = [];
+      let paths = [];
+      dfs(root, []);
+      return paths;
+
+      function dfs(node, path) {
+        if (!node) {
+          return;
+        }
+        path.push(node.val);
+        if (!node.left && !node.right) {
+          paths.push(path.join('->'));
+        }
+        dfs(node.left, [...path]);
+        dfs(node.right, [...path]);
+      }
+    };
+
+    var binaryTreePaths2 = function (root) {
+      let paths = [];
+      let pathQueue = [];
+      pathQueue.push([root.val]);
+      let nodeQueue = [root];
+
+      while (nodeQueue.length) {
+        for (let i = 0, len = nodeQueue.length; i < len; i++) {
+          let node = nodeQueue.shift();
+          let path = pathQueue.shift();
+          if (!node.left && !node.right) {
+            paths.push(path.join('->'));
+            continue;
+          }
+          if (node.left) {
+            nodeQueue.push(node.left);
+            let temp = [...path];
+            temp.push(node.left.val);
+            pathQueue.push([...temp]);
+          }
+          if (node.right) {
+            nodeQueue.push(node.right);
+            let temp = [...path];
+            temp.push(node.right.val);
+            pathQueue.push([...temp]);
+          }
+        }
+      }
+      return paths;
+    };
+    let root = createTree([1, 2, 3, null, 5]);
+    // let root = createTree([1, 2, 3, 4, 5]);
+    let binaryTreePaths = binaryTreePaths2;
+    console.log(binaryTreePaths(root));
+  </script>
+  [1,2,3,null,5]
+</body>
+
+</html>
