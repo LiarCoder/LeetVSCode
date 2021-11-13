@@ -1,0 +1,80 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: LiarCoder
+ * @Date: 2021-11-13 16:21:44
+ * @LastEditors: LiarCoder
+ * @LastEditTime: 2021-11-13 17:08:28
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>63. 不同路径 II</title>
+</head>
+
+<body>
+  <script type="text/javascript">
+    /**
+     * @param {number[][]} obstacleGrid
+     * @return {number}
+     */
+    var uniquePathsWithObstacles1 = function (obstacleGrid) {
+      // 注意 dp 数组的长宽都比 obstacleGrid 大 1
+      let dp = new Array(obstacleGrid.length + 1).fill(0).map(
+        // 注意这里我把 dp 数组元素的值都初始化为0，此前我是初始化为1
+        () => new Array(obstacleGrid[0].length + 1).fill(0)
+      );
+
+      //  dp 数组的首行和首列应该被初始化为0，上面创建dp数组的时候就相当于同时完成了初始化
+
+      // 开始遍历obstacleGrid数组，同时填充dp数组
+      for (let i = 1; i < dp.length; i++) {
+        for (let j = 1; j < dp[0].length; j++) {
+          // 如果当前遍历的 obstacleGrid 元素为障碍物，则直接让相应的 dp 数组元素为 0
+          // 代表到达该位置的路径总条数为 0，注意该判断应当在下面那个判断前以应对[[1]]的情况
+          if (obstacleGrid[i - 1][j - 1] === 1) {
+            dp[i][j] = 0;
+            continue;
+          }
+          // 注意要对 dp[1][1] 这个元素做特殊处理
+          if (i === 1 && j === 1) {
+            dp[i][j] = 1;
+            continue;
+          }
+          // 剩下的元素的填充逻辑就和之前那道题目是一样的了
+          dp[i][j] = dp[i][j - 1] + dp[i - 1][j];
+        }
+      }
+      return dp[dp.length - 1][dp[0].length - 1];
+    };
+
+    var uniquePathsWithObstacles2 = function (obstacleGrid) {
+      let dp = new Array(obstacleGrid[0].length + 1).fill(0);
+      dp[1] = obstacleGrid[0][0] ? 0 : 1;
+
+      for (let i = 0; i < obstacleGrid.length; i++) {
+        for (let j = 0; j < obstacleGrid[0].length; j++) {
+          if (obstacleGrid[i][j] === 1) {
+            dp[j + 1] = 0;
+            continue;
+          }
+          dp[j + 1] = dp[j + 1] + dp[j];
+        }
+      }
+      return dp[dp.length - 1];
+    };
+
+    let arr = [[0, 0, 0], [0, 1, 0], [0, 0, 0]];
+    // let uniquePathsWithObstacles = uniquePathsWithObstacles1;
+    let uniquePathsWithObstacles = uniquePathsWithObstacles2;
+    console.log(uniquePathsWithObstacles(arr));
+  </script>
+  [[0,0,0],[0,1,0],[0,0,0]]
+  [[0,1],[0,0]]
+  [[1]]
+</body>
+
+</html>
