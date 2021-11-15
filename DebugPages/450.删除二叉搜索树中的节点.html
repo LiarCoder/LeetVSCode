@@ -1,0 +1,99 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: LiarCoder
+ * @Date: 2021-11-15 18:27:41
+ * @LastEditors: LiarCoder
+ * @LastEditTime: 2021-11-15 19:52:20
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>450. 删除二叉搜索树中的节点</title>
+</head>
+
+<body>
+  <script type="text/javascript" src="../create-leetcode-tree.js"></script>
+  <script type="text/javascript">
+    /**
+     * Definition for a binary tree node.
+     * function TreeNode(val, left, right) {
+     *     this.val = (val===undefined ? 0 : val)
+     *     this.left = (left===undefined ? null : left)
+     *     this.right = (right===undefined ? null : right)
+     * }
+     */
+    /**
+     * @param {TreeNode} root
+     * @param {number} key
+     * @return {TreeNode}
+     */
+    var deleteNode = function (root, key) {
+      // 为了应对key对应的节点恰好是原二叉树的根节点，我特意给root节点创建了一个父节点god
+      // god.left就相当于是指向原二叉树的根节点root
+      let god = new TreeNode(Infinity, root, null);
+      // target是要删除的目标节点，需要我们通过搜索找到，其初始值为root
+      let target = root;
+      // targetParent 是目标节点的父节点，其初始值为god
+      let targetParent = god;
+      // preTarget是target在原二叉树的中序遍历序列中的直接前驱节点，它也需要在通过搜索找到
+      // 也就是说，当我们获取到原二叉树的中序遍历序列后，preTarget就在target之前
+      let preTarget = null;
+      // preTargetParent是preTarget的父节点
+      let preTargetParent = null;
+      // child是一个辅助变量，用于简化后续的一点判断逻辑，其值为 'left' 或 'right'
+      let child = '';
+      // 下面while循环的逻辑就是用于寻找要删除的目标节点target
+      while (target) {
+        if (target.val === key) {
+          break;
+        }
+        targetParent = target;
+        target = target.val > key ? target.left : target.right;
+      }
+      // 如果二叉树中没有找到目标节点，则直接返回根节点
+      if (!target) {
+        return god.left;
+      }
+      // 如果找到的目标节点没有左子树
+      if (!target.left) {
+        // 判断目标节点是其父节点的左子节点还是右子节点
+        child = targetParent.left === target ? 'left' : 'right';
+        // 将目标节点的右子树链接到目标节点的父节点的响应位置，
+        // 这里就相当于是让目标节点的右子树顶替了原目标节点的位置
+        targetParent[child] = target.right;
+        // 释放目标节点，相当于是删除节点的操作
+        target = null;
+        // 最后返回删除目标节点后的二叉树的根节点，结束程序
+        return god.left;
+      }
+      // 如果目标节点有左子树，则开始寻找preTarget和preTargetParent
+      // 寻找preTarget的过程就相当于是寻找target节点的左子树中的最靠右的那个节点
+      // 该节点在中序遍历序列中的位置就恰好是在target前面
+      preTargetParent = target;
+      preTarget = target.left;
+      while (preTarget.right) {
+        preTargetParent = preTarget;
+        preTarget = preTarget.right;
+      }
+      // 判断该把preTarget的左子树链接到preTargetParent的左边还是右边
+      // 如果preTarget恰好是target的左子节点，则链接到左边，否则链接到右边
+      // child = preTargetParent === target ? 'left' : 'right';
+      child = preTarget === target.left ? 'left' : 'right';
+      preTargetParent[child] = preTarget.left;
+      // 让preTarget节点的节点值顶替target节点的节点值
+      target.val = preTarget.val;
+      // 释放preTarget节点
+      preTarget = null;
+      // 最后返回删除目标节点后的二叉树的根节点，结束程序
+      return god.left;
+    };
+    let root = createTree([0]);
+    console.log(deleteNode(root, 0));
+  </script>
+</body>
+
+</html>
