@@ -1,0 +1,42 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: LiarCoder
+ * @Date: 2021-11-17 17:35:34
+ * @LastEditors: LiarCoder
+ * @LastEditTime: 2021-11-17 17:39:13
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>剑指 Offer 61. 扑克牌中的顺子</title>
+</head>
+
+<body>
+  <script type="text/javascript">
+    /**
+     * @param {number[]} nums
+     * @return {boolean}
+     */
+    var isStraight = function (nums) {
+      nums.sort((a, b) => a - b);
+      let zeroRear = 0;
+      while (nums[zeroRear] === 0) {
+        zeroRear++;
+      }
+      for (let i = zeroRear; i < nums.length - 1; i++) {
+        if (nums[i] === nums[i + 1]) {
+          return false;
+        }
+        zeroRear = zeroRear - (nums[i + 1] - nums[i] - 1);
+      }
+      return zeroRear < 0 ? false : true;
+    };
+    console.log(isStraight([4, 7, 5, 9, 2]));
+  </script>
+</body>
+
+</html>
